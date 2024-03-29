@@ -17,6 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from trackingApp.views import NoteListView, NoteDetailView, CreateNoteView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+
+    path('', NoteListView.as_view(), name='home'),
+    path('notes/', NoteListView.as_view(), name='note_list'),
+    path('notes/<int:pk>/', NoteDetailView.as_view(), name='note_detail'),
+    path('notes/create/', CreateNoteView.as_view(), name='create_note'),
 ]

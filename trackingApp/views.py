@@ -10,6 +10,7 @@ from django import forms
 from django.views import View
 from django.http import HttpResponse
 #from .forms import NoteForm#
+
 # Create your views here.
 
 class NoteListView(ListView):
