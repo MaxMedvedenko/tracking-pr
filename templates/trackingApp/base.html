@@ -1,23 +1,25 @@
+<!-- templates/trackingApp/base.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" type="text/css" href="{% static 'css/trackingApp/base.css' %}">
-    <title>{% block title %}Booking.com{% endblock %}</title>
-    <!-- Включення стилів базового шаблону -->
+    <title>{% block title %}My Notes{% endblock %}</title>
     {% block styles %}{% endblock %}
 </head>
 <body>
     <header>
-
+        <!-- Your header content goes here -->
     </header>
 
-    <div class="content">
-        {% block content %}
-        <!-- Content goes here -->
-        {% endblock %}
+    <div class="container">
+        {% block content %}{% endblock %}
     </div>
+
+    <footer>
+        <!-- Your footer content goes here -->
+    </footer>
 </body>
 </html>

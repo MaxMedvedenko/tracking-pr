@@ -1,3 +1,5 @@
+<!-- templates/trackingApp/note_list.html -->
+
 {% extends 'trackingApp/base.html' %}
 {% load static %}
 
@@ -7,7 +9,12 @@
 
 {% block content %}
 <div class="main-content">
-    note_list
+    <!-- Your note list content goes here -->
+    <h1>Note List</h1>
+    <ul>
+        {% for note in notes %}
+            <li>{{ note.title }}</li>
+        {% endfor %}
+    </ul>
 </div>
-
 {% endblock %}
