@@ -13,9 +13,12 @@ from django.http import HttpResponse
 
 # Create your views here.
 
+def index(request):
+    return render(request, 'trackingApp/index.html')
+
 class NoteListView(ListView):
     model = Note
-    template_name = 'note_list.html'
+    template_name = 'trackingApp/note_list.html'
     context_object_name = 'notes'
 
 
@@ -24,7 +27,7 @@ from .models import Note
 
 class NoteDetailView(DetailView):
     model = Note
-    template_name = 'note_detail.html'
+    template_name = 'trackingApp/note_detail.html'
     context_object_name = 'note'
 
 from django import forms
@@ -44,12 +47,12 @@ def create_note(request):
             return redirect('note_list')
     else:
         form = NoteForm()
-    return render(request, 'create_note.html', {'form': form})
+    return render(request, 'trackingApp/create_note.html', {'form': form})
 
 class CreateNoteView(View):
     def get(self, request):
         form = NoteForm()
-        return render(request, 'create_note.html', {'form': form})
+        return render(request, 'trackingApp/create_note.html', {'form': form})
 
     def post(self, request):
         form = NoteForm(request.POST)
@@ -57,4 +60,4 @@ class CreateNoteView(View):
             # Обробка валідних даних форми та збереження нової замітки
             return HttpResponse("Замітка успішно створена!")
         else:
-            return render(request, 'create_note.html', {'form': form})
+            return render(request, 'trackingApp/create_note.html', {'form': form})
