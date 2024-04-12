@@ -1,18 +1,18 @@
-<!-- templates/trackingApp/create_note.html -->
+<!-- templates/trackingApp/login.html -->
 {% extends 'trackingApp/base.html' %}
 {% load static %}
 
 {% block styles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/trackingApp/create_note.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trackingApp/login.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="main-content">
-    <h2>Create a New Note</h2>
+    <h2>Login</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save Note</button>
+        <button type="submit">Login</button>
     </form>
 </div>
 {% endblock %}

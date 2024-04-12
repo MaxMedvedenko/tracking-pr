@@ -4,22 +4,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/trackingApp/base.css' %}">
-    <title>{% block title %}My Notes{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/booking_app/base.css' %}">
+    <title>{% block title %}Booking.com{% endblock %}</title>
+    <!-- Включення стилів базового шаблону -->
     {% block styles %}{% endblock %}
 </head>
 <body>
     <header>
-        <!-- Your header content goes here -->
+        <div class="logo">
+            <a href="{% url 'index' %}">Home</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'task_list' %}">Task List</a></li>
+                <li><a href="{% url 'create_task' %}">Create task</a></li>
+                <li><a href="{% url 'register' %}">Registration</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'logout' %}">Log out</a></li>
+                
+                <!-- Умовний оператор для визначення статусу користувача -->
+                {% if user.is_authenticated %}
+                    <li style="color: green;">Logged in</li>
+                {% else %}
+                    <li style="color: red;">Logged out</li>
+                {% endif %}
+            </ul>
+        </nav>
     </header>
 
-    <div class="container">
-        {% block content %}{% endblock %}
+    <div class="content">
+        {% block content %}
+        <!-- Content goes here -->
+        {% endblock %}
     </div>
-
-    <footer>
-        <!-- Your footer content goes here -->
-    </footer>
 </body>
 </html>

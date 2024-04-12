@@ -1,3 +1,4 @@
+<!-- templates/trackingApp/note_detail.html -->
 {% extends 'trackingApp/base.html' %}
 {% load static %}
 
@@ -7,7 +8,9 @@
 
 {% block content %}
 <div class="main-content">
-    note_detail
+    <h2>Note Details</h2>
+    <p>Title: {{ note.title }}</p>
+    <p>Content: {{ note.content }}</p>
 </div>
 
 {% endblock %}

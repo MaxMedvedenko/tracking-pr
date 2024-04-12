@@ -20,6 +20,12 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     due_date = models.DateField()
 
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.creator = User.objects.get(username=self.request.user.username)
+        super(Task, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
