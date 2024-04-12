@@ -37,7 +37,7 @@ class TaskListView(ListView):
     context_object_name = 'tasks'
 
 class TaskDetailView(DetailView):
-    model = Note
+    model = Task
     template_name = 'trackingApp/task_detail.html'
     context_object_name = 'task'
 
