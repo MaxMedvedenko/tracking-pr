@@ -81,7 +81,7 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'trackingApp/create_task.html'
-    success_url = 'success/'
+    success_url = reverse_lazy('success')
 
     def form_valid(self, form):
         form.instance.creator = self.request.user

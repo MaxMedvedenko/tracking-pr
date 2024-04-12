@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 # Create your models here.
 
 class Task(models.Model):
@@ -19,12 +20,7 @@ class Task(models.Model):
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='LOW')
     created_at = models.DateTimeField(auto_now_add=True)
     due_date = models.DateField()
-
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.creator = User.objects.get(username=self.request.user.username)
-        super(Task, self).save(*args, **kwargs)
+    creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.title
