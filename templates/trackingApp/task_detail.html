@@ -16,6 +16,17 @@
     <p><strong>Created At:</strong> {{ task.created_at }}</p>
     <p><strong>Due Date:</strong> {{ task.due_date }}</p>
     <p><strong>Creator:</strong> {{ task.creator.username }}</p>
+
+    <h2>Comments:</h2>
+    <ul>
+        {% for comment in task.comments.all %}
+            <li>
+                <p><strong>By:</strong> {{ comment.user.username }}</p>
+                <p><strong>Comment:</strong> {{ comment.text }}</p>
+                <p><strong>Created At:</strong> {{ comment.created_at }}</p>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 
 {% endblock %}
