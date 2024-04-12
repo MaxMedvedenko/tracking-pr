@@ -18,4 +18,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
 
     path('success/', views.success, name='success'),
+    path('denied/', views.denied, name='denied'),
 ]

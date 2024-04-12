@@ -14,8 +14,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.http import HttpResponse
 
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.http import HttpResponseRedirect
 
 from trackingApp.models import *
 # Create your views here.
@@ -25,6 +25,11 @@ def index(request):
 class CheckUserInSessionMixin(UserPassesTestMixin):
     def test_func(self):
         return self.request.user.is_authenticated
+
+    def handle_no_permission(self):
+        if not self.request.user.is_authenticated:
+            return HttpResponseRedirect(reverse_lazy('denied'))
+        return super().handle_no_permission()
     
 class TaskListView(ListView):
     model = Task
@@ -77,7 +82,7 @@ class CreateNoteView(View):
 
 
 
-class CreateTaskView(LoginRequiredMixin, CreateView):
+class CreateTaskView(CheckUserInSessionMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'trackingApp/create_task.html'
@@ -86,9 +91,6 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
-
-def success(request):
-    return render(request, 'trackingApp/success.html')
 
 # register, login, logout #
 class RegisterView(FormView):
@@ -120,3 +122,9 @@ class LogoutView(RedirectView):
     def get(self, request, *args, **kwargs):
         auth_logout(request)
         return super().get(request, *args, **kwargs)
+
+def success(request):
+    return render(request, 'trackingApp/success.html')
+
+def denied(request):
+    return render(request, 'trackingApp/denied.html')
