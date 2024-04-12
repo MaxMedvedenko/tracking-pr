@@ -15,6 +15,7 @@
     <p><strong>Priority:</strong> {{ task.get_priority_display }}</p>
     <p><strong>Created At:</strong> {{ task.created_at }}</p>
     <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+    <p><strong>Creator:</strong> {{ task.creator.username }}</p>
 </body>
 
 {% endblock %}
