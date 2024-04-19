@@ -5,17 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/booking_app/base.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trackingApp/base.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>{% block title %}task-tracker.com{% endblock %}</title>
     <!-- Включення стилів базового шаблону -->
     {% block styles %}{% endblock %}
 </head>
 <body>
     <header>
-        <div class="logo">
+        <!-- <div class="logo">
             <a href="{% url 'index' %}">Home</a>
-        </div>
-        <nav>
+        </div> -->
+        <!-- <nav>
             <ul>
                 <li><a href="{% url 'task_list' %}">Task List</a></li>
                 <li><a href="{% url 'create_task' %}">Create task</a></li>
@@ -23,14 +25,31 @@
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'logout' %}">Log out</a></li>
                 
-                <!-- Умовний оператор для визначення статусу користувача -->
+                
                 {% if user.is_authenticated %}
                     <li style="color: green;">Logged in</li>
                 {% else %}
                     <li style="color: red;">Logged out</li>
                 {% endif %}
             </ul>
-        </nav>
+        </nav> -->
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <a class="nav-link active" aria-current="page" href="{% url 'task_list' %}" >Task List</a>
+                  <a class="nav-link" href="{% url 'create_task' %}">Create task</a>
+                  <a class="nav-link" href="{% url 'register' %}">Registration</a>
+                  <a class="nav-link" href="{% url 'login' %}">Logged in</a>
+                  <a class="nav-link" href="{% url 'logout' %}">Logged out</a>
+                </div>
+              </div>
+            </div>
+          </nav>
     </header>
 
     <div class="content">
@@ -38,5 +57,6 @@
         <!-- Content goes here -->
         {% endblock %}
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

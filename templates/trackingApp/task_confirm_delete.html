@@ -1,0 +1,13 @@
+<!-- templates/trackingApp/task_confirm_delete.html -->
+{% extends 'trackingApp/base.html' %}
+
+{% block content %}
+<body>
+    <h1>Delete Task</h1>
+    <p>Are you sure you want to delete the task "{{ object }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</body>
+{% endblock %}

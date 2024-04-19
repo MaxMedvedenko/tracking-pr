@@ -8,17 +8,44 @@
 
 {% block content %}
 <body>
-    <h1>Task Detail</h1>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{ task.title }}</h5>
+          <p class="card-text">{{ task.description }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">{{ task.get_status_display }}</li>
+          <li class="list-group-item">{{ task.get_priority_display }}</li>
+          <li class="list-group-item">{{ task.created_at }}</li>
+          <li class="list-group-item">{{ task.due_date }}</li>
+          <li class="list-group-item">{{ task.creator.username }}</li>
+        </ul>
+        <div class="card-body">
+          <a href="{% url 'task_update' task.pk %}" class="card-link bi bi-pen" >Edit</a>
+          <a href="{% url 'task_delete' task.pk %}" class="card-link bi bi-file-earmark-x">Delete</a>
+        </div>
+      </div>    
+    
+    
+    <!-- <h1>Task Detail</h1>
     <h2>{{ task.title }}</h2>
     <p><strong>Description:</strong> {{ task.description }}</p>
     <p><strong>Status:</strong> {{ task.get_status_display }}</p>
     <p><strong>Priority:</strong> {{ task.get_priority_display }}</p>
     <p><strong>Created At:</strong> {{ task.created_at }}</p>
     <p><strong>Due Date:</strong> {{ task.due_date }}</p>
-    <p><strong>Creator:</strong> {{ task.creator.username }}</p>
+    <p><strong>Creator:</strong> {{ task.creator.username }}</p> -->
 
-    <h2>Comments:</h2>
-    <ul>
+    <h2 class = "my-5">Comments:</h2>
+    
+    <!-- Додавання коментарів -->
+    <form method="post" action="{% url 'add_comment' pk=task.pk %}">
+      {% csrf_token %}
+      <textarea name="comment_text" class="form-control mb-2" placeholder="Add a comment"></textarea>
+      <button type="submit" class="btn btn-primary">Publish Comment</button>
+    </form>
+
+    <!-- <ul>
         {% for comment in task.comments.all %}
             <li>
                 <p><strong>By:</strong> {{ comment.user.username }}</p>
@@ -26,7 +53,19 @@
                 <p><strong>Created At:</strong> {{ comment.created_at }}</p>
             </li>
         {% endfor %}
-    </ul>
+    </ul> -->
+    
+    {% for comment in task.comments.all %}
+    <div class="card mb-4" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">{{ comment.user.username }}</li>
+          <li class="list-group-item">{{ comment.text }}</li>
+        </ul>
+        <div class="card-footer">
+            <li class="list-group-item">{{ comment.created_at }}</li>
+        </div>
+    </div>
+    {% endfor %}
 </body>
 
 {% endblock %}

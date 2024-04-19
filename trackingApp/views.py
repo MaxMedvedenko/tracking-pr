@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView
 
 from django import forms
-from trackingApp.forms import TaskForm, UserRegistrationForm, UserLoginForm
+from trackingApp.forms import TaskForm, UserRegistrationForm, UserLoginForm, TaskUpdateForm, CommentForm
 from django.contrib.auth import login, authenticate, logout
 from django.views.generic.base import RedirectView
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
-from django.views.generic.edit import FormView, CreateView
+from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
 from django.views import View
@@ -16,6 +16,8 @@ from django.http import HttpResponse
 
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
+
+from django.shortcuts import get_object_or_404
 
 from trackingApp.models import *
 # Create your views here.
@@ -128,3 +130,43 @@ def success(request):
 
 def denied(request):
     return render(request, 'trackingApp/denied.html')
+
+
+
+# Функція перевірки, чи є користувач автором задачі або суперкористувачем
+def is_creator_or_superuser(user, task):
+    return user.is_superuser or user == task.creator
+
+# Клас для перевірки користувача перед видаленням або редагуванням завдання
+class CheckTaskPermissionMixin(UserPassesTestMixin):
+    def test_func(self):
+        task = self.get_object()
+        return is_creator_or_superuser(self.request.user, task)
+
+# Клас для редагування завдання
+class TaskUpdateView(CheckTaskPermissionMixin, UpdateView):
+    model = Task
+    form_class = TaskUpdateForm
+    template_name = 'trackingApp/task_update_form.html'
+    success_url = reverse_lazy('success')
+
+# Клас для видалення завдання
+class TaskDeleteView(CheckTaskPermissionMixin, DeleteView):
+    model = Task
+    success_url = reverse_lazy('success')
+
+
+
+class AddCommentToTaskView(View):
+    def post(self, request, pk):
+        task = get_object_or_404(Task, pk=pk)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.task = task
+            comment.user = request.user
+            comment.save()
+        return redirect('task_detail', pk=pk)
+
+    def get(self, request, pk):
+        return redirect('task_detail', pk=pk)

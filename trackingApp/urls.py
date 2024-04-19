@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from trackingApp.views import NoteListView, NoteDetailView, CreateNoteView, CreateTaskView, TaskListView,RegisterView ,LoginView ,LogoutView,TaskDetailView
+from trackingApp.views import NoteListView, NoteDetailView, CreateNoteView, CreateTaskView, TaskListView,RegisterView ,LoginView ,LogoutView,TaskDetailView, TaskUpdateView, TaskDeleteView, AddCommentToTaskView
 
 urlpatterns = [
     path('', views.index, name='index'),  # URL-шлях до головної сторінки
@@ -16,6 +16,11 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+
+    path('tasks/<int:pk>/update/', TaskUpdateView.as_view(), name='task_update'),
+    path('tasks/<int:pk>/delete/', TaskDeleteView.as_view(), name='task_delete'),
+
+    path('tasks/<int:pk>/add-comment/', AddCommentToTaskView.as_view(), name='add_comment'),
 
     path('success/', views.success, name='success'),
     path('denied/', views.denied, name='denied'),
