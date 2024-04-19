@@ -133,24 +133,24 @@ def denied(request):
 
 
 
-# Функція перевірки, чи є користувач автором задачі або суперкористувачем
+# Перевірки, чи є користувач автором задачі або суперкористувачем
 def is_creator_or_superuser(user, task):
     return user.is_superuser or user == task.creator
 
-# Клас для перевірки користувача перед видаленням або редагуванням завдання
+# Перевірка користувача перед видаленням або редагуванням завдання
 class CheckTaskPermissionMixin(UserPassesTestMixin):
     def test_func(self):
         task = self.get_object()
         return is_creator_or_superuser(self.request.user, task)
 
-# Клас для редагування завдання
+# Редагування завдання
 class TaskUpdateView(CheckTaskPermissionMixin, UpdateView):
     model = Task
     form_class = TaskUpdateForm
     template_name = 'trackingApp/task_update_form.html'
     success_url = reverse_lazy('success')
 
-# Клас для видалення завдання
+# Видалення завдання
 class TaskDeleteView(CheckTaskPermissionMixin, DeleteView):
     model = Task
     success_url = reverse_lazy('success')
@@ -166,6 +166,8 @@ class AddCommentToTaskView(View):
             comment.task = task
             comment.user = request.user
             comment.save()
+            # Повідомлення для перевірки
+            print("Comment saved successfully:", comment)
         return redirect('task_detail', pk=pk)
 
     def get(self, request, pk):
