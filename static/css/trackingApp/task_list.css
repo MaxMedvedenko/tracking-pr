@@ -1,0 +1,34 @@
+/* static/css/trackingApp/task_list.css */
+
+/* Стилізація заголовка */
+h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+/* Стилізація списку завдань */
+ul {
+    list-style-type: none;
+    padding: 10px;
+    margin: 10px;
+}
+
+/* Стилізація пунктів списку */
+ul li {
+    margin-bottom: 10px;
+}
+
+/* Стилізація посилань на завдання */
+ul li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+/* Зміна кольору посилань при наведенні */
+ul li a:hover {
+    color: #0056b3;
+}
