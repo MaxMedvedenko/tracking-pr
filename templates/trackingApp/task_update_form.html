@@ -1,5 +1,10 @@
 <!-- templates/trackingApp/task_update_form.html -->
 {% extends 'trackingApp/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trackingApp/task_update_form.css' %}">
+{% endblock %}
 
 {% block content %}
 <body>

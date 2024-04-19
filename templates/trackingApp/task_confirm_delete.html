@@ -1,5 +1,10 @@
 <!-- templates/trackingApp/task_confirm_delete.html -->
 {% extends 'trackingApp/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trackingApp/task_confirm_delete.css' %}">
+{% endblock %}
 
 {% block content %}
 <body>
