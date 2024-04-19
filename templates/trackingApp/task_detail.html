@@ -26,15 +26,7 @@
         </div>
       </div>    
     
-    
-    <!-- <h1>Task Detail</h1>
-    <h2>{{ task.title }}</h2>
-    <p><strong>Description:</strong> {{ task.description }}</p>
-    <p><strong>Status:</strong> {{ task.get_status_display }}</p>
-    <p><strong>Priority:</strong> {{ task.get_priority_display }}</p>
-    <p><strong>Created At:</strong> {{ task.created_at }}</p>
-    <p><strong>Due Date:</strong> {{ task.due_date }}</p>
-    <p><strong>Creator:</strong> {{ task.creator.username }}</p> -->
+  
 
     <h2 class = "my-5">Comments:</h2>
     
@@ -45,16 +37,6 @@
       <button type="submit" class="btn btn-primary">Publish Comment</button>
     </form>
 
-    <!-- <ul>
-        {% for comment in task.comments.all %}
-            <li>
-                <p><strong>By:</strong> {{ comment.user.username }}</p>
-                <p><strong>Comment:</strong> {{ comment.text }}</p>
-                <p><strong>Created At:</strong> {{ comment.created_at }}</p>
-            </li>
-        {% endfor %}
-    </ul> -->
-    
     {% for comment in task.comments.all %}
     <div class="card mb-4" style="width: 18rem;">
         <ul class="list-group list-group-flush">
