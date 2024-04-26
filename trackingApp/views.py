@@ -14,7 +14,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.http import HttpResponse
 
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, AccessMixin
 from django.http import HttpResponseRedirect
 
 from django.shortcuts import get_object_or_404
@@ -142,6 +142,11 @@ class CheckTaskPermissionMixin(UserPassesTestMixin):
     def test_func(self):
         task = self.get_object()
         return is_creator_or_superuser(self.request.user, task)
+    
+    def handle_no_permission(self):
+        if not self.request.user.is_authenticated:
+            return HttpResponseRedirect(reverse_lazy('denied'))
+        return HttpResponseRedirect(reverse_lazy('denied'))
 
 # Редагування завдання
 class TaskUpdateView(CheckTaskPermissionMixin, UpdateView):
@@ -157,7 +162,7 @@ class TaskDeleteView(CheckTaskPermissionMixin, DeleteView):
 
 
 
-class AddCommentToTaskView(View):
+class AddCommentToTaskView(CheckUserInSessionMixin, View):
     def post(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
         form = CommentForm(request.POST)
@@ -166,8 +171,7 @@ class AddCommentToTaskView(View):
             comment.task = task
             comment.user = request.user
             comment.save()
-            # Повідомлення для перевірки
-            print("Comment saved successfully:", comment)
+            return redirect('task_detail', pk=pk)
         return redirect('task_detail', pk=pk)
 
     def get(self, request, pk):
