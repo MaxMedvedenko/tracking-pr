@@ -1,6 +1,10 @@
 from django.urls import path
 from . import views
-from trackingApp.views import NoteListView, NoteDetailView, CreateNoteView, CreateTaskView, TaskListView,RegisterView ,LoginView ,LogoutView,TaskDetailView, TaskUpdateView, TaskDeleteView, AddCommentToTaskView
+from trackingApp.views import NoteListView, NoteDetailView, CreateNoteView, CreateTaskView, TaskListView,RegisterView ,LoginView ,LogoutView,TaskDetailView, TaskUpdateView, TaskDeleteView, AddCommentToTaskView, EditCommentView, DeleteCommentView
+
+# Для media
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('', views.index, name='index'),  # URL-шлях до головної сторінки
@@ -21,7 +25,9 @@ urlpatterns = [
     path('tasks/<int:pk>/delete/', TaskDeleteView.as_view(), name='task_delete'),
 
     path('tasks/<int:pk>/add-comment/', AddCommentToTaskView.as_view(), name='add_comment'),
+    path('tasks/<int:pk>/edit-comment/<int:comment_pk>/', EditCommentView.as_view(), name='edit_comment'),
+    path('tasks/<int:pk>/delete-comment/<int:comment_pk>/', DeleteCommentView.as_view(), name='delete_comment'),
 
     path('success/', views.success, name='success'),
     path('denied/', views.denied, name='denied'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

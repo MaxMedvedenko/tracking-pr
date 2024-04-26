@@ -31,9 +31,10 @@
     <h2 class = "my-5">Comments:</h2>
     
     <!-- Додавання коментарів -->
-    <form method="post" action="{% url 'add_comment' pk=task.pk %}">
+    <form method="post" action="{% url 'add_comment' pk=task.pk %}" enctype="multipart/form-data">
       {% csrf_token %}
       <textarea name="text" class="form-control mb-2" placeholder="Add a comment"></textarea>
+      <input type="file" name="photo" accept="image/*">
       <button type="submit" class="btn btn-primary">Publish Comment</button>
     </form>
 
@@ -42,9 +43,18 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">{{ comment.user.username }}</li>
           <li class="list-group-item">{{ comment.text }}</li>
+          {% if comment.photo %}
+          <li class="list-group-item">
+              <img class="img-thumbnail" src="{{ comment.photo.url }}" alt="Comment File">
+          </li>
+          {% endif %}
         </ul>
         <div class="card-footer">
             <li class="list-group-item">{{ comment.created_at }}</li>
+        </div>
+        <div>
+          <a href="{% url 'edit_comment' pk=task.pk comment_pk=comment.pk %}" class="card-link bi bi-pen">Edit</a>
+          <a href="{% url 'delete_comment' pk=task.pk comment_pk=comment.pk %}" class="card-link bi bi-file-earmark-x">Delete</a>
         </div>
     </div>
     {% endfor %}

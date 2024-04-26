@@ -1,0 +1,18 @@
+<!-- templates/trackingApp/comment_confirm_delete.html -->
+{% extends 'trackingApp/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trackingApp/task_confirm_delete.css' %}">
+{% endblock %}
+
+{% block content %}
+<body>
+    <h1>Delete Comment</h1>
+    <p>Are you sure you want to delete the comment "{{ object }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</body>
+{% endblock %}

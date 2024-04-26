@@ -18,6 +18,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, 
 from django.http import HttpResponseRedirect
 
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 from trackingApp.models import *
 # Create your views here.
@@ -162,10 +163,40 @@ class TaskDeleteView(CheckTaskPermissionMixin, DeleteView):
 
 
 
+
+# Коментарі
+
+# Перевірка користувача перед видаленням або редагуванням коментарів
+
+class CheckPermissionMixin(UserPassesTestMixin):
+    def test_func(self):
+        obj = self.get_object()
+        return self.is_creator_or_superuser(self.request.user, obj)
+
+    def is_creator_or_superuser(self, user, obj):
+        raise NotImplementedError("is_creator_or_superuser must be implemented in subclasses.")
+
+    def handle_no_permission(self):
+        if not self.request.user.is_authenticated:
+            return HttpResponseRedirect(reverse_lazy('denied'))
+        return HttpResponseRedirect(reverse_lazy('denied'))
+
+class CheckCommentPermissionMixin(CheckPermissionMixin):
+    model = Comment
+
+    def get_object(self):
+        task_id = self.kwargs.get('pk')
+        comment_id = self.kwargs.get('comment_pk')
+        return get_object_or_404(self.model, pk=comment_id, task_id=task_id)
+
+    def is_creator_or_superuser(self, user, comment):
+        return user.is_superuser or user == comment.user
+    
+
 class AddCommentToTaskView(CheckUserInSessionMixin, View):
     def post(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
-        form = CommentForm(request.POST)
+        form = CommentForm(request.POST, request.FILES)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.task = task
@@ -176,3 +207,14 @@ class AddCommentToTaskView(CheckUserInSessionMixin, View):
 
     def get(self, request, pk):
         return redirect('task_detail', pk=pk)
+
+class EditCommentView(CheckCommentPermissionMixin, UpdateView):
+    model = Comment
+    fields = ['text', 'photo']
+
+    def get_success_url(self):
+        return reverse_lazy('task_detail', kwargs={'pk': self.object.task.pk})
+        
+class DeleteCommentView(CheckCommentPermissionMixin, DeleteView):
+    model = Comment
+    success_url = reverse_lazy('success')

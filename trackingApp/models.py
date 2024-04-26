@@ -31,6 +31,8 @@ class Comment(models.Model):
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    photo = models.ImageField(upload_to='comment_photos/', null=True, blank=True)
+
     def __str__(self):
         return f'Comment by {self.user.username} on {self.task.title}'
 

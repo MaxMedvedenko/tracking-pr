@@ -1,0 +1,18 @@
+<!-- templates/trackingApp/update_comment.html -->
+{% extends 'trackingApp/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trackingApp/update_comment.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <h2>Edit comment</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Зберегти</button>
+      </form>
+</div>
+{% endblock %}
